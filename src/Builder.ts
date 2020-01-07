@@ -16,7 +16,7 @@ export class Builder {
      */
     async build(fixture: IFixture) {
         const repository = this.connection.getRepository(fixture.entity);
-        let entity = repository.create();
+        const entity: any = repository.create();
         let data = this.parser.parse(fixture.data, fixture, this.entities);
         let call: object;
 
@@ -67,16 +67,22 @@ export class Builder {
                 data = await processorInstance.preProcess(fixture.name, data);
             }
 
-            entity = plainToClassFromExist(entity, data, { ignoreDecorators: true });
-            await callExecutors();
+            for (const key in data) {
+                if (data[key]) {
+                    entity[key] = data[key];
+                }
+            }
 
             /* istanbul ignore else */
             if (typeof processorInstance.postProcess === 'function') {
                 await processorInstance.postProcess(fixture.name, entity);
             }
         } else {
-            entity = plainToClassFromExist(entity, data, { ignoreDecorators: true });
-            await callExecutors();
+            for (const key in data) {
+                if (data[key]) {
+                    entity[key] = data[key];
+                }
+            }
         }
 
         this.entities[fixture.name] = entity;
