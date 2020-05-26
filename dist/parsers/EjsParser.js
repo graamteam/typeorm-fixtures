@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EjsParser = void 0;
 const ejs = require("ejs");
 class EjsParser {
     constructor() {

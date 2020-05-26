@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ParameterParser = void 0;
 const lodash_1 = require("lodash");
 class ParameterParser {
     constructor() {
@@ -34,7 +35,18 @@ class ParameterParser {
             if (parameter) {
                 const parameterValue = lodash_1.get(fixture.parameters, parameter);
                 if (parameterValue === undefined) {
-                    throw new Error(`Unknown parameter "${parameter}" in ${fixture.name}`);
+                    if (parameter.startsWith('process.env')) {
+                        const key = parameter.replace('process.env.', '');
+                        if (key in process.env) {
+                            result.push(process.env[key]);
+                        }
+                        else {
+                            throw new Error(`Unkown environment variable "${parameter}" in ${fixture.name}`);
+                        }
+                    }
+                    else {
+                        throw new Error(`Unknown parameter "${parameter}" in ${fixture.name}`);
+                    }
                 }
                 result.push(parameterValue);
             }

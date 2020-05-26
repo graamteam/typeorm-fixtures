@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createConnection = void 0;
 const typeorm_1 = require("typeorm");
 function createConnection(config, connectionName) {
     return __awaiter(this, void 0, void 0, function* () {

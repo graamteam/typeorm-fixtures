@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Loader = void 0;
 const path = require("path");
 const fs = require("fs");
 const glob = require("glob");

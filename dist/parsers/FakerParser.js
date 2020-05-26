@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FakerParser = void 0;
 const faker = require("faker");
 class FakerParser {
     constructor() {

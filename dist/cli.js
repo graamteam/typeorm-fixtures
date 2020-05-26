@@ -17,7 +17,7 @@ const cliProgress = require("cli-progress");
 const commander = require("commander");
 const resolveFrom = require("resolve-from");
 const yargsParser = require("yargs-parser");
-const chalk_1 = require("chalk");
+const chalk = require("chalk");
 const Loader_1 = require("./Loader");
 const util_1 = require("./util");
 const Resolver_1 = require("./Resolver");
@@ -52,11 +52,11 @@ if (!commander.paths) {
 }
 const debug = (message) => {
     if (commander.debug) {
-        console.log(chalk_1.default.grey(message)); // tslint:disable-line
+        console.log(chalk.grey(message)); // tslint:disable-line
     }
 };
 const error = (message) => {
-    console.log(chalk_1.default.red(message)); // tslint:disable-line
+    console.log(chalk.red(message)); // tslint:disable-line
 };
 const typeOrmConfigPath = path.resolve(commander.config);
 if (!fs.existsSync(typeOrmConfigPath)) {
@@ -83,7 +83,7 @@ util_1.createConnection({
     const fixtures = resolver.resolve(loader.fixtureConfigs);
     const builder = new Builder_1.Builder(connection, new Parser_1.Parser());
     const bar = new cliProgress.Bar({
-        format: `${chalk_1.default.yellow('Progress')}  ${chalk_1.default.green('[{bar}]')} ${chalk_1.default.yellow('{percentage}% | ETA: {eta}s | {value}/{total} {name}')} `,
+        format: `${chalk.yellow('Progress')}  ${chalk.green('[{bar}]')} ${chalk.yellow('{percentage}% | ETA: {eta}s | {value}/{total} {name}')} `,
         barCompleteChar: '\u2588',
         barIncompleteChar: '\u2591',
         fps: 5,
@@ -95,7 +95,7 @@ util_1.createConnection({
         const entity = yield builder.build(fixture);
         try {
             bar.increment(1, { name: fixture.name });
-            yield connection.getRepository(entity.constructor.name).save(entity);
+            yield connection.getRepository(fixture.entity).save(entity);
         }
         catch (e) {
             bar.stop();
